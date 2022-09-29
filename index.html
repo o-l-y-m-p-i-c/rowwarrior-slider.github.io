@@ -117,13 +117,6 @@
                     }
                     return
                 }
-                if (sliderObj.container.getBoundingClientRect().top + sliderObj.container.getBoundingClientRect().height <= sliderObj.screenPosY) {
-                    if (sliderObj.selectorAll[sliderObj.selectorAll.length - 1]) {
-                        sliderObj.changeShownContainer(sliderObj.selectorAll[sliderObj.selectorAll.length - 1])
-
-                    }
-                    return
-                }
                 sliderObj.selectorAll.forEach((item,index,arr) =>{
                     
                     if (item.getBoundingClientRect().top <= 0 && (item.getBoundingClientRect().top + item.getBoundingClientRect().height ) >= 0  ) {
@@ -184,21 +177,37 @@
         <section>
             <div class="vertical-slider__container js-container">
                 <div class="vertical-slider__content-wrapper">
-                    <div class="vertical-slider__item min-vh-100 black skeleton " id="list-1" item-id="1">=
+                    <div class="vertical-slider__item min-vh-100 skeleton " id="list-1" item-id="1">
                     </div>
-                    <div class="vertical-slider__item min-vh-100 blue skeleton" id="list-2" item-id="2">=
+                    <div class="vertical-slider__item min-vh-100 skeleton" id="list-2" item-id="2">
                     </div>
-                    <div class="vertical-slider__item min-vh-100 rubby skeleton" id="list-3" item-id="3">=
+                    <div class="vertical-slider__item min-vh-100 skeleton" id="list-3" item-id="3">
                     </div>
-                    <div class="vertical-slider__item min-vh-100 rubby skeleton" id="list-4" item-id="4">=
+                    <div class="vertical-slider__item min-vh-100 skeleton" id="list-4" item-id="4">
                     </div>
+
                     <div class="vertical-slider-absolute__container">
                         <div class="vertical-slider-sticky__list-container ">
                             <div class="vertical-slider-sticky__background-list">
-                                <img class="vertical-slider__item-img js-content-item" src="./assets/img/1.jpg" item-id="1" alt="">
-                                <img class="vertical-slider__item-img js-content-item" src="./assets/img/2.jpg" item-id="2" alt="">
-                                <img class="vertical-slider__item-img js-content-item" src="./assets/img/3.jpg" item-id="3" alt="">
-                                <img class="vertical-slider__item-img js-content-item" src="./assets/img/4.jpg" item-id="4" alt="">
+                                <img class="vertical-slider__item-img js-content-item" 
+                                    src="./assets/img/1.jpg" 
+                                    item-id="1" alt=""
+                                >
+                                <img 
+                                    class="vertical-slider__item-img js-content-item" 
+                                    src="./assets/img/2.jpg" 
+                                    item-id="2" alt=""
+                                >
+                                <img 
+                                    class="vertical-slider__item-img js-content-item" 
+                                    src="./assets/img/3.jpg" 
+                                    item-id="3" alt=""
+                                >
+                                <img 
+                                    class="vertical-slider__item-img js-content-item" 
+                                    src="./assets/img/4.jpg" 
+                                    item-id="4" alt=""
+                                >
                             </div>
                             <div class="vertical-slider__inner">
                                 <div class="vertical-slider__inner-content-wrapper">
@@ -252,7 +261,8 @@
                                             </h3>
                                             <h4 class="vertical-slider__content-item-title">
                                                 Unbox, unwrap,<br />
-                                                assemble, and row                                            </h4>
+                                                assemble, and row                                            
+                                            </h4>
                                             <p class="vertical-slider__content-item-paragraph">
                                                 When Row Warrior arrives at your door, you’ll be ready to row in 30 minutes or less. Our no-fuss design requires little assembly and comes with simple, easy-to-follow instructions so you can hop on and get rowing with ease.
                                             </p>
@@ -263,7 +273,8 @@
                                             </h3>
                                             <h4 class="vertical-slider__content-item-title">
                                                 No space?<br />
-                                                No problem                                            </h4>
+                                                No problem                                            
+                                            </h4>
                                             <p class="vertical-slider__content-item-paragraph">
                                                 Featuring a sleek, simple, compact design, Row Warrior can easily be folded, separated, and stored away. Whether you’re a workout warrior in a small living space, or you want a little extra room in your home gym, this rower is for you.
                                             </p>
@@ -273,7 +284,8 @@
                                                 Ease of use
                                             </h3>
                                             <h4 class="vertical-slider__content-item-title">
-                                                Perfect for beginners & experienced warriors alike                                            </h4>
+                                                Perfect for beginners & experienced warriors alike                                            
+                                            </h4>
                                             <p class="vertical-slider__content-item-paragraph">
                                                 Whether you’ve been rowing for decades or are just starting out, Row Warrior offers easily customizable resistance levels so you can find the right challenge for you - wherever you are on your fitness journey.                                            </p>
                                         </div>  

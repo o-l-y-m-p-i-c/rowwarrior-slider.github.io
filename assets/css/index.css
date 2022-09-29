@@ -11,9 +11,11 @@ html, body{
 }
 
 .min-vh-100{
-    min-height: 70vh;
+    height: 110vh;
 }
-
+.skeleton{
+    /* border-top: 4px solid red; */
+}
 
 .vertical-slider__item{
     transition: opacity 0.2s;
@@ -23,6 +25,7 @@ html, body{
 }
 .vertical-slider__content-wrapper{
     position: relative;
+    /* z-index:999; */
     padding-bottom: 50vh;
 }
 .vertical-slider-absolute__container{
@@ -31,6 +34,7 @@ html, body{
     top: 0;
     height: 100%;
     width: 100%;
+    /* z-index: -1; */
     /* z-index: 10; */
 }
 
@@ -40,6 +44,7 @@ html, body{
     top:0;
     width: 100%;
     height: 100vh;
+    background: rgba(133, 66, 66, 0.534)
     /* background-color: #42a5f1 */
 }
 .vertical-slider-sticky__background-list{
@@ -142,7 +147,7 @@ html, body{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 50%;
+    width: 60%;
     padding: 5rem 4rem 5rem 8rem;
     margin-left: auto;
     box-sizing: border-box;

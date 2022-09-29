@@ -154,7 +154,8 @@
                 btns.forEach(btn => {
                     btn.onclick = (e) => {
 
-                        sliderObj.handleClick(e)
+                        // sliderObj.handleClick(e)
+                        window.moveTo(0, 0)
                     }
                 })
             }
@@ -183,14 +184,13 @@
         <section>
             <div class="vertical-slider__container js-container">
                 <div class="vertical-slider__content-wrapper">
-                    <div class="vertical-slider__item min-vh-100 black skeleton " item-id="1">
-                        <!-- <img class="vertical-slider__item-img" src="./assets/img/1.jpg" alt=""> -->
+                    <div class="vertical-slider__item min-vh-100 black skeleton " id="list-1" item-id="1">=
                     </div>
-                    <div class="vertical-slider__item min-vh-100 blue skeleton" item-id="2">
-                        <!-- <img class="vertical-slider__item-img"  src="./assets/img/2.jpg" alt=""> -->
+                    <div class="vertical-slider__item min-vh-100 blue skeleton" id="list-2" item-id="2">=
                     </div>
-                    <div class="vertical-slider__item min-vh-100 rubby skeleton" item-id="3">
-                        <!-- <img class="vertical-slider__item-img"  src="./assets/img/3.jpg" alt=""> -->
+                    <div class="vertical-slider__item min-vh-100 rubby skeleton" id="list-3" item-id="3">=
+                    </div>
+                    <div class="vertical-slider__item min-vh-100 rubby skeleton" id="list-4" item-id="4">=
                     </div>
                     <div class="vertical-slider-absolute__container">
                         <div class="vertical-slider-sticky__list-container ">
@@ -198,19 +198,35 @@
                                 <img class="vertical-slider__item-img js-content-item" src="./assets/img/1.jpg" item-id="1" alt="">
                                 <img class="vertical-slider__item-img js-content-item" src="./assets/img/2.jpg" item-id="2" alt="">
                                 <img class="vertical-slider__item-img js-content-item" src="./assets/img/3.jpg" item-id="3" alt="">
+                                <img class="vertical-slider__item-img js-content-item" src="./assets/img/4.jpg" item-id="4" alt="">
                             </div>
                             <div class="vertical-slider__inner">
                                 <div class="vertical-slider__inner-content-wrapper">
                                     <div class="vertical-slider__pagination">
                                         <ul class="vertical-slider__pagination-list">
                                             <li class="vertical-slider__pagination-item js-pagination-btn" item-id="1">
-                                                Versatility
+                                                <a href="#list-1">
+                                                    Versatility
+                                                </a>
+                                                
                                             </li>
                                             <li class="vertical-slider__pagination-item js-pagination-btn" item-id="2">
-                                                Simple assembly
+                                                <a href="#list-2">
+                                                    Simple assembly
+                                                </a>
+                                                
                                             </li>
                                             <li class="vertical-slider__pagination-item js-pagination-btn" item-id="3">
-                                                Compact design
+                                                
+                                                <a href="#list-3">
+                                                    Compact design
+                                                </a>
+                                            </li>
+                                            <li class="vertical-slider__pagination-item js-pagination-btn" item-id="4">
+                                                
+                                                <a href="#list-4">
+                                                    Ease of use
+                                                </a>
                                             </li>
                                             <span class="vertical-slider__pagination-sapn js-pag-sapn">
 
@@ -251,6 +267,15 @@
                                             <p class="vertical-slider__content-item-paragraph">
                                                 Featuring a sleek, simple, compact design, Row Warrior can easily be folded, separated, and stored away. Whether you’re a workout warrior in a small living space, or you want a little extra room in your home gym, this rower is for you.
                                             </p>
+                                        </div>  
+                                        <div class=" vertical-slider__content-item js-content-item" item-id="4">
+                                            <h3 class="vertical-slider__content-item-subtitle">
+                                                Ease of use
+                                            </h3>
+                                            <h4 class="vertical-slider__content-item-title">
+                                                Perfect for beginners & experienced warriors alike                                            </h4>
+                                            <p class="vertical-slider__content-item-paragraph">
+                                                Whether you’ve been rowing for decades or are just starting out, Row Warrior offers easily customizable resistance levels so you can find the right challenge for you - wherever you are on your fitness journey.                                            </p>
                                         </div>  
                                     </div>
                                 </div>

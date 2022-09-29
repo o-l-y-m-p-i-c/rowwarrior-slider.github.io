@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/css/index.css">
+
+    <script>
+
+        
+
+        const sliderObj = {
+            screenPosY: null,
+            containerStartPosY: null,
+            containerEndPosY : null,
+            switchFlag:false, 
+
+            container : null,
+            selectorAll : null,
+            selectorAllOptions: null,
+            shownBlock: null,
+
+
+            init:() => {
+
+            },
+            
+            setSelector: (arr) => {
+                sliderObj.selectorAll = arr
+            },
+            setContainer : (item) => {
+                sliderObj.container = item
+                sliderObj.setStartAndEnd(item)
+            },
+            setStartAndEnd:(item) =>{
+                console.log(item.getBoundingClientRect())
+                // setInterval(() => console.log(item.getBoundingClientRect()),1000)
+            },
+            setScreenPosY : (pos) => {
+                sliderObj.screenPosY = pos
+                console.log(sliderObj.screenPosY , "screenPosY")
+            },
+            handleClick : (event) => {
+                const id = event.target.getAttribute('item-id')
+                sliderObj.changeShownContainer(null,id)
+            },
+            changeShownContainer :  (item,id = null) => {
+                // set shown container
+                if (id == null) {
+                    sliderObj.shownBlock = item
+                }else{
+                    sliderObj.selectorAll.forEach(selector => {
+                        const selectorId = selector.getAttribute('item-id')
+                        if (selectorId  == Number(id)) {
+                            sliderObj.shownBlock = selector
+                            return
+                        }
+                    })
+                    // sliderObj.switchFlag = true
+                }
+                // turn off unshown containers
+
+                    sliderObj.selectorAll.forEach((selector,index) =>
+                        {
+                            if(selector !== sliderObj.shownBlock ){
+                                selector.classList.remove('show')
+                                const parent = selector.closest('.js-container')
+                                const itemID = selector.getAttribute('item-id')
+                                // console.log(itemID)
+                                const contentContainer = parent.querySelectorAll(`.js-content-item[item-id="${itemID}"]`)
+                                const link = parent.querySelector(`.js-pagination-btn[item-id="${itemID}"]`)
+                                link.classList.remove('active')
+                                contentContainer.forEach(union => union.classList.remove('show'))
+                                
+                            }else{
+                                selector.classList.add('show')
+                                
+                                const parent = selector.closest('.js-container')
+                                const itemID = selector.getAttribute('item-id')
+                                const contentContainer = parent.querySelectorAll(`.js-content-item[item-id="${itemID}"]`)
+                                const link = parent.querySelector(`.js-pagination-btn[item-id="${itemID}"]`)
+                                const span = parent.querySelector('.js-pag-sapn')
+                                const linkProps = {
+                                    width: link.offsetWidth,
+                                    top: link.offsetTop,
+                                    left : link.offsetLeft,
+                                    height: link.offsetHeight
+                                }
+                                link.classList.add('active')
+                                span.style.height = linkProps.height + 'px'
+                                span.style.width = linkProps.width + 'px'
+                                span.style.left = linkProps.left + 'px'
+                                span.style.top = linkProps.top + 'px'
+
+                                contentContainer.forEach(union => union.classList.add('show'))
+                                // contentContainer.classList.add('show')
+                                console.log(sliderObj.shownBlock, "Active container")
+                                if (sliderObj.switchFlag) {
+                                    screen.screenTop = 200
+                                    window.moveTo(0,0)
+                                    moveTo(20,20)
+                                    window.focus()
+                                }
+                            }
+                        }
+                    )
+                
+                
+            },
+            checkContainers: () =>{
+                if (sliderObj.container.getBoundingClientRect().top >= sliderObj.screenPosY) {
+                    if (sliderObj.selectorAll[0]) {
+                        console.log(sliderObj.selectorAll[0])
+                        sliderObj.changeShownContainer(sliderObj.selectorAll[0])
+                    }
+                    return
+                }
+                if (sliderObj.container.getBoundingClientRect().top + sliderObj.container.getBoundingClientRect().height <= sliderObj.screenPosY) {
+                    if (sliderObj.selectorAll[sliderObj.selectorAll.length - 1]) {
+                        sliderObj.changeShownContainer(sliderObj.selectorAll[sliderObj.selectorAll.length - 1])
+
+                    }
+                    return
+                }
+                sliderObj.selectorAll.forEach((item,index,arr) =>{
+                    
+                    if (item.getBoundingClientRect().top <= 0 && (item.getBoundingClientRect().top + item.getBoundingClientRect().height ) >= 0  ) {
+                        sliderObj.changeShownContainer(item)
+                        
+                    }
+                    
+                })
+            },
+            scrollingEvent : () => {
+                if (!sliderObj.switchFlag) {
+                    sliderObj.checkContainers()
+                }
+                // sliderObj.scrollingEvent()
+            },
+        }
+       
+
+        window.onload = () => {
+            if (window.innerWidth > 1024) {
+                sliderObj.setScreenPosY(window.pageYOffset)
+                const containerList = document.querySelectorAll('.vertical-slider__item')
+                const container = document.querySelector('.vertical-slider__container')
+                sliderObj.setSelector(containerList)
+                sliderObj.setContainer(container)
+                sliderObj.checkContainers() 
+                const btns = document.querySelectorAll('.js-pagination-btn')
+                btns.forEach(btn => {
+                    btn.onclick = (e) => {
+
+                        sliderObj.handleClick(e)
+                    }
+                })
+            }
+        }
+
+        window.onscroll = (e) => {
+            if (window.innerWidth > 1024) {
+                sliderObj.setScreenPosY(window.pageYOffset)
+                sliderObj.scrollingEvent()
+            }
+            
+            
+        }
+        window.onresize = () => {
+            if (window.innerWidth > 1024) {
+                sliderObj.setScreenPosY(window.pageYOffset)
+                sliderObj.scrollingEvent()
+            }
+        }
+          
+    </script>
+</head>
+<body>
+    <main>
+        <div class="" style="height:20vh"></div>
+        <section>
+            <div class="vertical-slider__container js-container">
+                <div class="vertical-slider__content-wrapper">
+                    <div class="vertical-slider__item min-vh-100 black skeleton " item-id="1">
+                        <!-- <img class="vertical-slider__item-img" src="./assets/img/1.jpg" alt=""> -->
+                    </div>
+                    <div class="vertical-slider__item min-vh-100 blue skeleton" item-id="2">
+                        <!-- <img class="vertical-slider__item-img"  src="./assets/img/2.jpg" alt=""> -->
+                    </div>
+                    <div class="vertical-slider__item min-vh-100 rubby skeleton" item-id="3">
+                        <!-- <img class="vertical-slider__item-img"  src="./assets/img/3.jpg" alt=""> -->
+                    </div>
+                    <div class="vertical-slider-absolute__container">
+                        <div class="vertical-slider-sticky__list-container ">
+                            <div class="vertical-slider-sticky__background-list">
+                                <img class="vertical-slider__item-img js-content-item" src="./assets/img/1.jpg" item-id="1" alt="">
+                                <img class="vertical-slider__item-img js-content-item" src="./assets/img/2.jpg" item-id="2" alt="">
+                                <img class="vertical-slider__item-img js-content-item" src="./assets/img/3.jpg" item-id="3" alt="">
+                            </div>
+                            <div class="vertical-slider__inner">
+                                <div class="vertical-slider__inner-content-wrapper">
+                                    <div class="vertical-slider__pagination">
+                                        <ul class="vertical-slider__pagination-list">
+                                            <li class="vertical-slider__pagination-item js-pagination-btn" item-id="1">
+                                                Versatility
+                                            </li>
+                                            <li class="vertical-slider__pagination-item js-pagination-btn" item-id="2">
+                                                Simple assembly
+                                            </li>
+                                            <li class="vertical-slider__pagination-item js-pagination-btn" item-id="3">
+                                                Compact design
+                                            </li>
+                                            <span class="vertical-slider__pagination-sapn js-pag-sapn">
+
+                                            </span>
+                                        </ul>
+                                        
+                                    </div>
+                                    <div class="vertical-slider__content-list">
+                                        <div class=" vertical-slider__content-item js-content-item" item-id="1">
+                                            <h3 class="vertical-slider__content-item-subtitle">
+                                                Versatility
+                                            </h3>
+                                            <h4 class="vertical-slider__content-item-title">
+                                                Get a solid, low-impact, full-body workout at home
+                                            </h4>
+                                            <p class="vertical-slider__content-item-paragraph">
+                                                Like a Swiss army knife, Row Warrior is a tool that provides a wide array of benefits. Use it to build muscle, gain strength, improve cardio, increase stamina, or simply improve your overall well-being without ever walking out your door.
+                                            </p>
+                                        </div>
+                                        <div class="vertical-slider__content-item js-content-item" item-id="2">
+                                            <h3 class="vertical-slider__content-item-subtitle">
+                                                Simple assembly
+                                            </h3>
+                                            <h4 class="vertical-slider__content-item-title">
+                                                Unbox, unwrap,<br />
+                                                assemble, and row                                            </h4>
+                                            <p class="vertical-slider__content-item-paragraph">
+                                                When Row Warrior arrives at your door, you’ll be ready to row in 30 minutes or less. Our no-fuss design requires little assembly and comes with simple, easy-to-follow instructions so you can hop on and get rowing with ease.
+                                            </p>
+                                        </div>
+                                        <div class=" vertical-slider__content-item js-content-item" item-id="3">
+                                            <h3 class="vertical-slider__content-item-subtitle">
+                                                Compact design
+                                            </h3>
+                                            <h4 class="vertical-slider__content-item-title">
+                                                No space?<br />
+                                                No problem                                            </h4>
+                                            <p class="vertical-slider__content-item-paragraph">
+                                                Featuring a sleek, simple, compact design, Row Warrior can easily be folded, separated, and stored away. Whether you’re a workout warrior in a small living space, or you want a little extra room in your home gym, this rower is for you.
+                                            </p>
+                                        </div>  
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+        <div class="" style="height:120vh"></div>
+    </main>
+    <script src="./assets/script/index.js" ></script>
+</body>
+</html>

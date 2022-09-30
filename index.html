@@ -34,7 +34,7 @@
             }
             scroll = () =>{
                 this.setScreenPosY(window.pageYOffset)
-                this.scrollingEvent()
+                this.checkContainers()
             }
             setSelector = (arr) => {
                 this.selectorAll = arr
@@ -55,17 +55,18 @@
             }
             changeShownContainer =  (item,id = null) => {
                 // set shown container
-                if (id == null) {
-                    this.shownBlock = item
-                }else{
-                    this.selectorAll.forEach(selector => {
-                        const selectorId = selector.getAttribute('item-id')
-                        if (selectorId  == Number(id)) {
-                            this.shownBlock = selector
-                            return
-                        }
-                    })
-                }
+                this.shownBlock = item
+                // if (id == null) {
+                //     this.shownBlock = item
+                // }else{
+                //     this.selectorAll.forEach(selector => {
+                //         const selectorId = selector.getAttribute('item-id')
+                //         if (selectorId  == Number(id)) {
+                //             this.shownBlock = selector
+                //             return
+                //         }
+                //     })
+                // }
                 // turn off unshown containers
 
                 this.selectorAll.forEach((selector,index) =>
@@ -79,33 +80,38 @@
                                 link.classList.remove('active')
                                 contentContainer.forEach(union => union.classList.remove('show'))
                                 
-                            }else{
-                                selector.classList.add('show')
+                            }else if(selector == this.shownBlock ) {
                                 
-                                const parent = selector.closest('.js-container')
-                                const itemID = selector.getAttribute('item-id')
-                                const contentContainer = parent.querySelectorAll(`.js-content-item[item-id="${itemID}"]`)
-                                const link = parent.querySelector(`.js-pagination-btn[item-id="${itemID}"]`)
-                                const span = parent.querySelector('.js-pag-sapn')
-                                const linkProps = {
-                                    width: link.offsetWidth,
-                                    top: link.offsetTop,
-                                    left : link.offsetLeft,
-                                    height: link.offsetHeight
-                                }
-                                link.classList.add('active')
-                                span.style.height = linkProps.height + 'px'
-                                span.style.width = linkProps.width + 'px'
-                                span.style.left = linkProps.left + 'px'
-                                span.style.top = linkProps.top + 'px'
+                                // if (!selector.classList.contains('show')) {
+                                    // console.log(selector.classList.contains('show'))
+                                    selector.classList.add('show')
+                                    console.log(selector == this.shownBlock)
+                                    const parent = selector.closest('.js-container')
+                                    const itemID = selector.getAttribute('item-id')
+                                    const contentContainer = parent.querySelectorAll(`.js-content-item[item-id="${itemID}"]`)
+                                    const link = parent.querySelector(`.js-pagination-btn[item-id="${itemID}"]`)
+                                    const span = parent.querySelector('.js-pag-sapn')
+                                    const linkProps = {
+                                        width: link.offsetWidth,
+                                        top: link.offsetTop,
+                                        left : link.offsetLeft,
+                                        height: link.offsetHeight
+                                    }
+                                    link.classList.add('active')
+                                    span.style.height = linkProps.height + 'px'
+                                    span.style.width = linkProps.width + 'px'
+                                    span.style.left = linkProps.left + 'px'
+                                    span.style.top = linkProps.top + 'px'
 
-                                contentContainer.forEach(union => union.classList.add('show'))
-                                if (this.switchFlag) {
-                                    screen.screenTop = 200
-                                    window.moveTo(0,0)
-                                    moveTo(20,20)
-                                    window.focus()
-                                }
+                                    contentContainer.forEach(union => union.classList.add('show'))
+                                    if (this.switchFlag) {
+                                        screen.screenTop = 200
+                                        window.moveTo(0,0)
+                                        moveTo(20,20)
+                                        window.focus()
+                                    }
+                                // }
+                                
                             }
                         }
                     )
@@ -113,28 +119,89 @@
                 
             }
             checkContainers = () =>{
-                if (this.container.getBoundingClientRect().top >= this.screenPosY) {
-                    if (this.selectorAll[0]) {
-                        this.changeShownContainer(this.selectorAll[0])
+              
+                // if (!this.switchFlag) {
+                    if (this.container.getBoundingClientRect().top > 100) {
+
+                        if (this.switchFlag === false) {
+                            this.selectorAll.forEach((item,index,arr) => {
+                                const percent = (item.getBoundingClientRect().top + item.getBoundingClientRect().height) /100
+                                const allHeight = item.getBoundingClientRect().height
+
+                                const parent = item.closest('.js-container')
+                                const id = item.getAttribute('item-id')
+                                const img = parent.querySelector(`.js-img[item-id="${id}"]`)
+                                img.style.transform = `translate(0px,${item.getBoundingClientRect().height/200 - 50}%)`
+                            })
+
+                            if (this.selectorAll[0]) {
+                                this.changeShownContainer(this.selectorAll[0])
+                            }
+                            this.switchFlag = true
+                            return
+                            console.log('srabotal 1')
+                        }
                     }
-                    return
-                }
+                    else if (this.container.getBoundingClientRect().top +this.container.getBoundingClientRect().height > -100){
+
+                        if (this.switchFlag === false) {
+                            this.selectorAll.forEach((item,index,arr) => {
+                                // console.log(item)
+                                const percent = (item.getBoundingClientRect().top + item.getBoundingClientRect().height) /100
+                                const allHeight = item.getBoundingClientRect().height
+
+                                const parent = item.closest('.js-container')
+                                const id = item.getAttribute('item-id')
+                                const img = parent.querySelector(`.js-img[item-id="${id}"]`)
+                                img.style.transform = `translate(0px,${-item.getBoundingClientRect().height/200 - 50}%)`
+                            })
+                            if (this.selectorAll[this.selectorAll.length - 1]) {
+                                this.changeShownContainer(this.selectorAll[this.selectorAll.length - 1])
+                            }
+
+                            this.switchFlag = true
+                            console.log('srabotal 2')
+                            // return
+                        }
+                        
+                    
+                    }
+                // }
+                
                 this.selectorAll.forEach((item,index,arr) =>{
                     
-                    if (item.getBoundingClientRect().top <= 0 && (item.getBoundingClientRect().top + item.getBoundingClientRect().height ) >= 0  ) {
-                        this.changeShownContainer(item)
+                    if (item.getBoundingClientRect().top <= 0 && (item.getBoundingClientRect().top + item.getBoundingClientRect().height ) >=  100    ) {
+                        const percent = (item.getBoundingClientRect().top + item.getBoundingClientRect().height) /100
+                        const allHeight = item.getBoundingClientRect().height
+                        const parent = item.closest('.js-container')
+                        const id = item.getAttribute('item-id')
+                        const img = parent.querySelector(`.js-img[item-id="${id}"]`)
+
+                        img.style.transform = `translate(0px,${-item.getBoundingClientRect().height/200 + percent - 50}%)`
+                        img.style.transition = 'transform 0.4s ease-out, opacity 0.4s ease-out'
+                        // if (!this.switchFlag) {
+                            // this.changeShownContainer(item)
+                            // console.log('srabotal aaa')
+                            // this.switchFlag = true
+                        // }else if(item.classList.contains('show')){
+                            this.changeShownContainer(item)
+
+                        // }
                         
+                        // this.changeShownContainer(item)
+                        console.log('srabotal')
                     }
                     
                 })
+            
+               
+
             }
             scrollingEvent = () => {
-                if (!this.switchFlag) {
+                // if (this.switchFlag) {
                     this.checkContainers()
-                }
+                // }
             }
-
-
         }
 
 
@@ -172,40 +239,33 @@
         <section>
             <div class="vertical-slider__container js-container slider1">
                 <div class="vertical-slider__content-wrapper">
-                    <div class="vertical-slider__item min-vh-100 skeleton " id="Versatility" item-id="1">
+                    <div class="vertical-slider__item  skeleton " id="Versatility" item-id="1">
                     </div>
-                    <div class="vertical-slider__item min-vh-100 skeleton" id="SimpleAssembly" item-id="2">
+                    <div class="vertical-slider__item  skeleton" id="SimpleAssembly" item-id="2">
                     </div>
-                    <div class="vertical-slider__item min-vh-100 skeleton" id="CompactDesign" item-id="3">
+                    <div class="vertical-slider__item  skeleton" id="CompactDesign" item-id="3">
                     </div>
-                    <div class="vertical-slider__item min-vh-100 skeleton" id="EaseOfUse" item-id="4">
+                    <div class="vertical-slider__item  skeleton" id="EaseOfUse" item-id="4">
                     </div>
 
                     <div class="vertical-slider-absolute__container">
                         <div class="vertical-slider-sticky__list-container ">
                             <div class="vertical-slider-sticky__background-list slider1-backgrounds">
-                                <img class="vertical-slider__item-img js-content-item" 
+                                <img class="vertical-slider__item-img js-content-item js-img" 
                                     src="./assets/img/good-img-1.png" 
                                     item-id="1" alt=""
                                 >
-                                <!-- <img 
-                                    class="vertical-slider__item-img js-content-item" 
-                                    src="./assets/img/2.jpg" 
-                                    item-id="2" alt=""
-                                > -->
-                                <video class="vertical-slider__item-img js-content-item" 
-                                src="./assets/video/video-good-1.mp4"  autoplay loop
-                                item-id="2" alt="">
-
-
+                                <video class="vertical-slider__item-img js-content-item js-img" 
+                                    src="./assets/video/video-good-1.mp4"  autoplay loop
+                                    item-id="2" alt="">
                                 </video>
                                 <img 
-                                    class="vertical-slider__item-img js-content-item" 
+                                    class="vertical-slider__item-img js-content-item js-img" 
                                     src="./assets/img/good-img-3.png" 
                                     item-id="3" alt=""
                                 >
                                 <img 
-                                    class="vertical-slider__item-img js-content-item" 
+                                    class="vertical-slider__item-img js-content-item js-img" 
                                     src="./assets/img/good-img-4.png" 
                                     item-id="4" alt=""
                                 >
@@ -238,21 +298,19 @@
                                                     Ease of use
                                                 </a>
                                             </li>
-                                            <span class="vertical-slider__pagination-sapn js-pag-sapn">
-
-                                            </span>
+                                            <span class="vertical-slider__pagination-sapn js-pag-sapn"></span>
                                         </ul>
                                         
                                     </div>
                                     <div class="vertical-slider__content-list">
                                         <div class=" vertical-slider__content-item js-content-item" item-id="1">
-                                            <h3 class="vertical-slider__content-item-subtitle">
+                                            <h3 class="vertical-slider__content-item-subtitle trans-delay-02s" data-delay="1s">
                                                 Versatility
                                             </h3>
-                                            <h4 class="vertical-slider__content-item-title">
+                                            <h4 class="vertical-slider__content-item-title trans-delay-04s" data-delay="2s">
                                                 Get a solid, low-impact, full-body workout at home
                                             </h4>
-                                            <p class="vertical-slider__content-item-paragraph">
+                                            <p class="vertical-slider__content-item-paragraph trans-delay-08s" data-delay="3s">
                                                 Like a Swiss army knife, Row Warrior is a tool that provides a wide array of benefits. Use it to build muscle, gain strength, improve cardio, increase stamina, or simply improve your overall well-being without ever walking out your door.
                                             </p>
                                         </div>
@@ -304,28 +362,28 @@
         <section>
             <div class="vertical-slider__container js-container slip">
                 <div class="vertical-slider__content-wrapper">
-                    <div class="vertical-slider__item min-vh-100 skeleton " id="Simple" item-id="1">
+                    <div class="vertical-slider__item  skeleton " id="Simple" item-id="1">
                     </div>
-                    <div class="vertical-slider__item min-vh-100 skeleton" id="Smart" item-id="2">
+                    <div class="vertical-slider__item  skeleton" id="Smart" item-id="2">
                     </div>
-                    <div class="vertical-slider__item min-vh-100 skeleton" id="Solid" item-id="3">
+                    <div class="vertical-slider__item  skeleton" id="Solid" item-id="3">
                     </div>
 
 
                     <div class="vertical-slider-absolute__container">
                         <div class="vertical-slider-sticky__list-container ">
                             <div class="vertical-slider-sticky__background-list">
-                                <img class="vertical-slider__item-img js-content-item" 
+                                <img class="vertical-slider__item-img js-content-item js-img" 
                                     src="./assets/img/5.jpg" 
                                     item-id="1" alt=""
                                 >
                                 <img 
-                                    class="vertical-slider__item-img js-content-item" 
+                                    class="vertical-slider__item-img js-content-item js-img" 
                                     src="./assets/img/6.jpg" 
                                     item-id="2" alt=""
                                 >
                                 <img 
-                                    class="vertical-slider__item-img js-content-item" 
+                                    class="vertical-slider__item-img js-content-item js-img" 
                                     src="./assets/img/7.jpg" 
                                     item-id="3" alt=""
                                 >

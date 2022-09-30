@@ -170,7 +170,7 @@
                 
                 this.selectorAll.forEach((item,index,arr) =>{
                     
-                    if (item.getBoundingClientRect().top <= 0 && (item.getBoundingClientRect().top + item.getBoundingClientRect().height ) >=  100    ) {
+                    if (item.getBoundingClientRect().top <= 0 && (item.getBoundingClientRect().top + item.getBoundingClientRect().height ) >=  0    ) {
                         const percent = (item.getBoundingClientRect().top + item.getBoundingClientRect().height) /100
                         const allHeight = item.getBoundingClientRect().height
                         const parent = item.closest('.js-container')

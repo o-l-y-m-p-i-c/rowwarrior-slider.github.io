@@ -9,66 +9,71 @@
 
     <script>
 
-        
+        class VerticalSlider {
+            screenPosY =null
+            containerStartPosY= null
+            containerEndPosY = null
+            switchFlag =false
 
-        const sliderObj = {
-            screenPosY: null,
-            containerStartPosY: null,
-            containerEndPosY : null,
-            switchFlag:false, 
+            container = null
+            selectorAll = null
+            selectorAllOptions= null
+            shownBlock=null
 
-            container : null,
-            selectorAll : null,
-            selectorAllOptions: null,
-            shownBlock: null,
-
-
-            init:() => {
-
-            },
-            
-            setSelector: (arr) => {
-                sliderObj.selectorAll = arr
-            },
-            setContainer : (item) => {
-                sliderObj.container = item
-                sliderObj.setStartAndEnd(item)
-            },
-            setStartAndEnd:(item) =>{
-                console.log(item.getBoundingClientRect())
-                // setInterval(() => console.log(item.getBoundingClientRect()),1000)
-            },
-            setScreenPosY : (pos) => {
-                sliderObj.screenPosY = pos
-                console.log(sliderObj.screenPosY , "screenPosY")
-            },
-            handleClick : (event) => {
+            constructor(containerClass){
+                this.setScreenPosY(window.pageYOffset)
+                const container = document.querySelector(`${containerClass}`)
+                const containerList = container.querySelectorAll(`.vertical-slider__item`)
+                this.setSelector(containerList)
+                this.setContainer(container)
+                this.checkContainers() 
+            }
+            resize = () =>{
+                this.setScreenPosY(window.pageYOffset)
+                this.scrollingEvent()
+            }
+            scroll = () =>{
+                this.setScreenPosY(window.pageYOffset)
+                this.scrollingEvent()
+            }
+            setSelector = (arr) => {
+                this.selectorAll = arr
+            }
+            setContainer  = (item) => {
+                this.container = item
+                this.setStartAndEnd(item)
+            }
+            setStartAndEnd = (item) =>{
+                // console.log(item.getBoundingClientRect())
+            }
+            setScreenPosY = (pos) => {
+                this.screenPosY = pos
+            }
+            handleClick = (event) => {
                 const id = event.target.getAttribute('item-id')
-                sliderObj.changeShownContainer(null,id)
-            },
-            changeShownContainer :  (item,id = null) => {
+                this.changeShownContainer(null,id)
+            }
+            changeShownContainer =  (item,id = null) => {
                 // set shown container
                 if (id == null) {
-                    sliderObj.shownBlock = item
+                    this.shownBlock = item
                 }else{
-                    sliderObj.selectorAll.forEach(selector => {
+                    this.selectorAll.forEach(selector => {
                         const selectorId = selector.getAttribute('item-id')
                         if (selectorId  == Number(id)) {
-                            sliderObj.shownBlock = selector
+                            this.shownBlock = selector
                             return
                         }
                     })
-                    // sliderObj.switchFlag = true
                 }
                 // turn off unshown containers
 
-                    sliderObj.selectorAll.forEach((selector,index) =>
+                this.selectorAll.forEach((selector,index) =>
                         {
-                            if(selector !== sliderObj.shownBlock ){
+                            if(selector !== this.shownBlock ){
                                 selector.classList.remove('show')
                                 const parent = selector.closest('.js-container')
                                 const itemID = selector.getAttribute('item-id')
-                                // console.log(itemID)
                                 const contentContainer = parent.querySelectorAll(`.js-content-item[item-id="${itemID}"]`)
                                 const link = parent.querySelector(`.js-pagination-btn[item-id="${itemID}"]`)
                                 link.classList.remove('active')
@@ -95,9 +100,7 @@
                                 span.style.top = linkProps.top + 'px'
 
                                 contentContainer.forEach(union => union.classList.add('show'))
-                                // contentContainer.classList.add('show')
-                                console.log(sliderObj.shownBlock, "Active container")
-                                if (sliderObj.switchFlag) {
+                                if (this.switchFlag) {
                                     screen.screenTop = 200
                                     window.moveTo(0,0)
                                     moveTo(20,20)
@@ -108,66 +111,58 @@
                     )
                 
                 
-            },
-            checkContainers: () =>{
-                if (sliderObj.container.getBoundingClientRect().top >= sliderObj.screenPosY) {
-                    if (sliderObj.selectorAll[0]) {
-                        console.log(sliderObj.selectorAll[0])
-                        sliderObj.changeShownContainer(sliderObj.selectorAll[0])
+            }
+            checkContainers = () =>{
+                if (this.container.getBoundingClientRect().top >= this.screenPosY) {
+                    if (this.selectorAll[0]) {
+                        this.changeShownContainer(this.selectorAll[0])
                     }
                     return
                 }
-                sliderObj.selectorAll.forEach((item,index,arr) =>{
+                this.selectorAll.forEach((item,index,arr) =>{
                     
                     if (item.getBoundingClientRect().top <= 0 && (item.getBoundingClientRect().top + item.getBoundingClientRect().height ) >= 0  ) {
-                        sliderObj.changeShownContainer(item)
+                        this.changeShownContainer(item)
                         
                     }
                     
                 })
-            },
-            scrollingEvent : () => {
-                if (!sliderObj.switchFlag) {
-                    sliderObj.checkContainers()
+            }
+            scrollingEvent = () => {
+                if (!this.switchFlag) {
+                    this.checkContainers()
                 }
-                // sliderObj.scrollingEvent()
-            },
+            }
+
+
         }
-       
+
+
+        let slider1, slider2
 
         window.onload = () => {
             if (window.innerWidth > 1024) {
-                sliderObj.setScreenPosY(window.pageYOffset)
-                const containerList = document.querySelectorAll('.vertical-slider__item')
-                const container = document.querySelector('.vertical-slider__container')
-                sliderObj.setSelector(containerList)
-                sliderObj.setContainer(container)
-                sliderObj.checkContainers() 
-                const btns = document.querySelectorAll('.js-pagination-btn')
-                btns.forEach(btn => {
-                    btn.onclick = (e) => {
+                slider1 = new VerticalSlider('.slider1')
+                slider2 = new VerticalSlider('.slip')
 
-                        // sliderObj.handleClick(e)
-                        window.moveTo(0, 0)
-                    }
-                })
             }
-        }
-
-        window.onscroll = (e) => {
+            window.onscroll = (e) => {
             if (window.innerWidth > 1024) {
-                sliderObj.setScreenPosY(window.pageYOffset)
-                sliderObj.scrollingEvent()
+                slider1.scroll()
+                slider2.scroll()
             }
             
             
-        }
-        window.onresize = () => {
-            if (window.innerWidth > 1024) {
-                sliderObj.setScreenPosY(window.pageYOffset)
-                sliderObj.scrollingEvent()
+            }
+            window.onresize = () => {
+                if (window.innerWidth > 1024) {
+                    slider1.resize()
+                    slider2.resize()
+                }
             }
         }
+
+       
           
     </script>
 </head>
@@ -175,65 +170,71 @@
     <main>
         <div class="" style="height:20vh"></div>
         <section>
-            <div class="vertical-slider__container js-container">
+            <div class="vertical-slider__container js-container slider1">
                 <div class="vertical-slider__content-wrapper">
-                    <div class="vertical-slider__item min-vh-100 skeleton " id="list-1" item-id="1">
+                    <div class="vertical-slider__item min-vh-100 skeleton " id="Versatility" item-id="1">
                     </div>
-                    <div class="vertical-slider__item min-vh-100 skeleton" id="list-2" item-id="2">
+                    <div class="vertical-slider__item min-vh-100 skeleton" id="SimpleAssembly" item-id="2">
                     </div>
-                    <div class="vertical-slider__item min-vh-100 skeleton" id="list-3" item-id="3">
+                    <div class="vertical-slider__item min-vh-100 skeleton" id="CompactDesign" item-id="3">
                     </div>
-                    <div class="vertical-slider__item min-vh-100 skeleton" id="list-4" item-id="4">
+                    <div class="vertical-slider__item min-vh-100 skeleton" id="EaseOfUse" item-id="4">
                     </div>
 
                     <div class="vertical-slider-absolute__container">
                         <div class="vertical-slider-sticky__list-container ">
-                            <div class="vertical-slider-sticky__background-list">
+                            <div class="vertical-slider-sticky__background-list slider1-backgrounds">
                                 <img class="vertical-slider__item-img js-content-item" 
-                                    src="./assets/img/1.jpg" 
+                                    src="./assets/img/good-img-1.png" 
                                     item-id="1" alt=""
                                 >
-                                <img 
+                                <!-- <img 
                                     class="vertical-slider__item-img js-content-item" 
                                     src="./assets/img/2.jpg" 
                                     item-id="2" alt=""
-                                >
+                                > -->
+                                <video class="vertical-slider__item-img js-content-item" 
+                                src="./assets/video/video-good-1.mp4"  autoplay loop
+                                item-id="2" alt="">
+
+
+                                </video>
                                 <img 
                                     class="vertical-slider__item-img js-content-item" 
-                                    src="./assets/img/3.jpg" 
+                                    src="./assets/img/good-img-3.png" 
                                     item-id="3" alt=""
                                 >
                                 <img 
                                     class="vertical-slider__item-img js-content-item" 
-                                    src="./assets/img/4.jpg" 
+                                    src="./assets/img/good-img-4.png" 
                                     item-id="4" alt=""
                                 >
                             </div>
-                            <div class="vertical-slider__inner">
-                                <div class="vertical-slider__inner-content-wrapper">
+                            <div class="vertical-slider__inner slider1-inner">
+                                <div class="vertical-slider__inner-content-wrapper slider1-content-wrapper">
                                     <div class="vertical-slider__pagination">
                                         <ul class="vertical-slider__pagination-list">
                                             <li class="vertical-slider__pagination-item js-pagination-btn" item-id="1">
-                                                <a href="#list-1">
+                                                <a href="#Versatility">
                                                     Versatility
                                                 </a>
                                                 
                                             </li>
                                             <li class="vertical-slider__pagination-item js-pagination-btn" item-id="2">
-                                                <a href="#list-2">
+                                                <a href="#SimpleAssembly">
                                                     Simple assembly
                                                 </a>
                                                 
                                             </li>
                                             <li class="vertical-slider__pagination-item js-pagination-btn" item-id="3">
                                                 
-                                                <a href="#list-3">
+                                                <a href="#CompactDesign">
                                                     Compact design
                                                 </a>
                                             </li>
                                             <li class="vertical-slider__pagination-item js-pagination-btn" item-id="4">
                                                 
-                                                <a href="#list-4">
+                                                <a href="#EaseOfUse">
                                                     Ease of use
                                                 </a>
                                             </li>
@@ -289,6 +290,104 @@
                                             <p class="vertical-slider__content-item-paragraph">
                                                 Whether you’ve been rowing for decades or are just starting out, Row Warrior offers easily customizable resistance levels so you can find the right challenge for you - wherever you are on your fitness journey.                                            </p>
                                         </div>  
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+        <div class="" style="height:20vh"></div>
+        <section>
+            <div class="vertical-slider__container js-container slip">
+                <div class="vertical-slider__content-wrapper">
+                    <div class="vertical-slider__item min-vh-100 skeleton " id="Simple" item-id="1">
+                    </div>
+                    <div class="vertical-slider__item min-vh-100 skeleton" id="Smart" item-id="2">
+                    </div>
+                    <div class="vertical-slider__item min-vh-100 skeleton" id="Solid" item-id="3">
+                    </div>
+
+
+                    <div class="vertical-slider-absolute__container">
+                        <div class="vertical-slider-sticky__list-container ">
+                            <div class="vertical-slider-sticky__background-list">
+                                <img class="vertical-slider__item-img js-content-item" 
+                                    src="./assets/img/5.jpg" 
+                                    item-id="1" alt=""
+                                >
+                                <img 
+                                    class="vertical-slider__item-img js-content-item" 
+                                    src="./assets/img/6.jpg" 
+                                    item-id="2" alt=""
+                                >
+                                <img 
+                                    class="vertical-slider__item-img js-content-item" 
+                                    src="./assets/img/7.jpg" 
+                                    item-id="3" alt=""
+                                >
+                            </div>
+                            <div class="vertical-slider__inner slider2-inner">
+                                <div class="vertical-slider__inner-content-wrapper slider2-content-wrapper">
+                                    <div class="vertical-slider__pagination">
+                                        <ul class="vertical-slider__pagination-list">
+                                            <li class="vertical-slider__pagination-item js-pagination-btn" item-id="1">
+                                                <a href="#Simple">
+                                                    Simple
+                                                </a>
+                                                
+                                            </li>
+                                            <li class="vertical-slider__pagination-item js-pagination-btn" item-id="2">
+                                                <a href="#Smart">
+                                                    Smart
+                                                </a>
+                                                
+                                            </li>
+                                            <li class="vertical-slider__pagination-item js-pagination-btn" item-id="3">
+                                                
+                                                <a href="#Solid">
+                                                    Solid
+                                                </a>
+                                            </li>
+
+                                            <span class="vertical-slider__pagination-sapn js-pag-sapn">
+
+                                            </span>
+                                        </ul>
+                                        
+                                    </div>
+                                    <div class="vertical-slider__content-list">
+                                        <div class=" vertical-slider__content-item js-content-item" item-id="1">
+
+                                            <h4 class="vertical-slider__content-item-title">
+                                                GET A SOLID WORKOUT WITHOUT THE FUSS
+                                            </h4>
+                                            <p class="vertical-slider__content-item-paragraph">
+                                                The ultimate full body workout, Row Warrior delivers tangible results in minimal time, without complicated routines or loads of equipment. A simple 15 to 20 minute rowing session done 2 to 3 times a week will help you build strength, boost cardio, increase endurance, and torch fat.
+                                            </p>
+                                        </div>
+                                        <div class="vertical-slider__content-item js-content-item" item-id="2">
+
+                                            <h4 class="vertical-slider__content-item-title">
+                                                TRACK YOUR STATS & WATCH YOUR GAINS                                            
+                                            </h4>
+                                            <p class="vertical-slider__content-item-paragraph">
+                                                When it comes to staying motivated, there’s nothing more powerful than seeing your progress. With its built-in Bluetooth LED monitor, Row Warrior will help you track time, distance, row count, calories burned, heart rate, and more.
+                                            </p>
+                                        </div>
+                                        <div class=" vertical-slider__content-item js-content-item" item-id="3">
+
+                                            <h4 class="vertical-slider__content-item-title">
+                                                BATTLE-TESTED & BUILT TO LAST                                            
+                                            </h4>
+                                            <p class="vertical-slider__content-item-paragraph">
+                                                Made with an industrial-grade steel frame that can handle weights of up to 550 pounds, Row Warrior sturdy design features wear-resistant surfaces that can withstand heavy use so it will look sleek and clean for years to come.
+                                            </p>
+                                        </div>  
+
                                     </div>
                                 </div>
                                 

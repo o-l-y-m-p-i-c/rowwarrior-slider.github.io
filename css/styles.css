@@ -343,7 +343,7 @@ svg,
   -ms-user-select: none;
   user-select: none;
   white-space: nowrap;
-  transition: all 0.4s;
+  transition: color 0.4s;
 }
 @media (max-width: 1199px) {
   .nav-good__link {

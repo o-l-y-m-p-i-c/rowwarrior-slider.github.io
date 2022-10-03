@@ -548,7 +548,7 @@ function getOffset(el) {
   };
 }
 function getY(el) {
-  return getOffset(el).top - window.innerHeight/1.25
+  return getOffset(el).top - window.innerHeight/0.7
 }
 
 function onloadAnimatedText() {
@@ -566,7 +566,7 @@ function onloadAnimatedText() {
     
   scene1 = new ScrollMagic.Scene({
     // trigerHook: "onEnter",
-    duration: "90%",
+    duration: "200%",
     offset: getY(infoTitle[0])
   })
   .setTween(infoTitlee)
@@ -576,7 +576,7 @@ function onloadAnimatedText() {
 
   var infoTitlee2 = TweenMax.fromTo(infoTitle2, 1,
     {
-      xPercent: -180,
+      xPercent: -140,
       // opacity: 1,
       ease: Power1.easeInOut
     }, {
@@ -587,7 +587,7 @@ function onloadAnimatedText() {
     
   scene2 = new ScrollMagic.Scene({
     // trigerHook: "onEnter",
-    duration: "90%",
+    duration: "200%",
     offset: getY(infoTitle2[0])
   })
   .setTween(infoTitlee2)
@@ -607,7 +607,7 @@ function onloadAnimatedText() {
     
   scene3 = new ScrollMagic.Scene({
     // trigerHook: "onEnter",
-    duration: "90%",
+    duration: "200%",
     offset:getY(infoTitle3[0])
   })
   .setTween(infoTitlee3)

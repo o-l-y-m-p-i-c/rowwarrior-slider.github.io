@@ -2329,10 +2329,13 @@ svg,
   }
 }
 .appeal-section__title {
+  line-height: 1.2;
   margin: 0;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   background: -webkit-repeating-linear-gradient(top, #05245a, #05245a);
   -webkit-background-clip: text !important;
+  text-align: center;
+  /* white-space: nowrap !important; */
   -webkit-text-fill-color: transparent !important;
 }
 @media (max-width: 1199px) {
@@ -2345,11 +2348,11 @@ svg,
 }
 .appeal-section__title:nth-child(2) {
   background: linear-gradient(60deg, #0983bb 20%, #05245a 40%, #05245a 100%);
-  margin-left: 55rem;
+  /* margin-left: 55rem; */
 }
 .appeal-section__title:nth-child(3) {
   background: linear-gradient(45deg, #05245a 20%, #07a8f1 40%, #07a8f1 100%);
-  margin-left: 16rem;
+  /* margin-left: 16rem; */
 }
 .appeal-section__title--size-1 {
   font-size: 14rem;

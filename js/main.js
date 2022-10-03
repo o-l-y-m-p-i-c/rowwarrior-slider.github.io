@@ -179,7 +179,7 @@ class VerticalSlider {
      
 
   }
-  scrollingEvent = () => {åç
+  scrollingEvent = () => {
       // if (this.switchFlag) {
           this.checkContainers()
       // }ß
@@ -449,6 +449,9 @@ scrollAnimated();
 var wh = window.innerHeight,
   infoWord = $('.js-info-word'),
   infoText = $('.js-info-text'),
+  infoTitle = $('.js-appeal-title-1'),
+  infoTitle2 = $('.js-appeal-title-2'),
+  infoTitle3 = $('.js-appeal-title-3'),
   mainBenefits = $('.js-main-benefits');
 
 var ctrl = new ScrollMagic.Controller();
@@ -462,8 +465,9 @@ var infoWordd = TweenMax.fromTo(infoWord, 1,
   ease: Power1.easeIn
 });
 
+
 var scene = new ScrollMagic.Scene({
-  trigerHook: "onEnter",
+  // trigerHook: "onEnter",
   duration: "140%"
 })  
 .setTween(infoWordd)
@@ -480,8 +484,10 @@ var infoTextt = TweenMax.fromTo(infoText, 1,
   ease: Power1.easeInOut
 });
 
+
+
 var scene = new ScrollMagic.Scene({
-  trigerHook: "onEnter",
+  // trigerHook: "onEnter",
   duration: "150%"
 })  
 .setTween(infoTextt)
@@ -499,7 +505,7 @@ var mainBenefitss = TweenMax.fromTo(mainBenefits, 1,
 });
 
 var scene = new ScrollMagic.Scene({
-  trigerHook: "onEnter",
+  // trigerHook: "onEnter",
   duration: "90%"
 })  
 .setTween(mainBenefitss)
@@ -507,30 +513,122 @@ var scene = new ScrollMagic.Scene({
 
 
 
+
+
 function onloadVerticalSlider(){
-  if (window.innerWidth > 1199) {
+  if (window.innerWidth > 1199 ) {
     slider1 = new VerticalSlider('.slider1')
     slider2 = new VerticalSlider('.slider2')
 
   }
 }
 function onresizeVerticalSlider(){
-  if (window.innerWidth < 1199) {
+  if (window.innerWidth < 1199 && slider1 && slider2) {
     slider1.switchFlag = false
     slider2.switchFlag = false
   }
-  if (window.innerWidth > 1199) {
+  if (window.innerWidth > 1199  && slider1 && slider2) {
 
     slider1.resize()
     slider2.resize()
   }
 }
 function onscrollVerticalSlider() {
-  if (window.innerWidth > 1199) {
+  if (window.innerWidth > 1199  && slider1 && slider2) {
       slider1.scroll()
       slider2.scroll()
   }
 }
+
+function getOffset(el) {
+  const rect = el.getBoundingClientRect();
+  return {
+    left: rect.left + window.scrollX,
+    top: rect.top + window.scrollY
+  };
+}
+function getY(el) {
+  return getOffset(el).top - window.innerHeight/1.25
+}
+
+function onloadAnimatedText() {
+
+  var infoTitlee = TweenMax.fromTo(infoTitle, 1,
+    {
+      xPercent: 140,
+      // opacity: 1,
+      ease: Power1.easeInOut
+    }, {
+      xPercent: -140,
+      // opacity: 0,
+      ease: Power1.easeInOut
+    });
+    
+  scene1 = new ScrollMagic.Scene({
+    // trigerHook: "onEnter",
+    duration: "90%",
+    offset: getY(infoTitle[0])
+  })
+  .setTween(infoTitlee)
+  .addTo(ctrl);
+
+
+
+  var infoTitlee2 = TweenMax.fromTo(infoTitle2, 1,
+    {
+      xPercent: -180,
+      // opacity: 1,
+      ease: Power1.easeInOut
+    }, {
+      xPercent: 140,
+      // opacity: 0,
+      ease: Power1.easeInOut
+    });
+    
+  scene2 = new ScrollMagic.Scene({
+    // trigerHook: "onEnter",
+    duration: "90%",
+    offset: getY(infoTitle2[0])
+  })
+  .setTween(infoTitlee2)
+  .addTo(ctrl);
+  
+
+  var infoTitlee3 = TweenMax.fromTo(infoTitle3, 1,
+    {
+      xPercent: 140,
+      // opacity: 1,
+      ease: Power1.easeInOut
+    }, {
+      xPercent: -140,
+      // opacity: 0,
+      ease: Power1.easeInOut
+    });
+    
+  scene3 = new ScrollMagic.Scene({
+    // trigerHook: "onEnter",
+    duration: "90%",
+    offset:getY(infoTitle3[0])
+  })
+  .setTween(infoTitlee3)
+  .addTo(ctrl);
+
+}
+function updateAnimatedTextOnScroll(){
+  if (scene1) {
+    scene1.offset(getY(infoTitle[0]))
+  }
+  if (scene2) {
+    scene2.offset(getY(infoTitle2[0]))
+  }
+  if (scene3) {
+    scene3.offset(getY(infoTitle3[0]))
+  }
+}
+
+let scene1 , scene2, scene3 = null 
+
+
 
 window.addEventListener('resize', onresizeVerticalSlider)
 
@@ -539,7 +637,9 @@ window.onresize = () => {
 }
 window.onload = () => {
   onloadVerticalSlider()
+  onloadAnimatedText()
 }
 window.onscroll = () => {
   onscrollVerticalSlider()
+  updateAnimatedTextOnScroll()
 }

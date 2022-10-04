@@ -1837,6 +1837,7 @@ svg,
   margin: 0 0 13rem;
   text-align: center;
   white-space: nowrap;
+  transition:transfrom 0.2s ease-out
 }
 @media (max-width: 991px) {
   .info__word {
@@ -2147,7 +2148,7 @@ svg,
 }
 @media (max-width: 1199px) {
   .good-info-section {
-    background: linear-gradient(55deg, #1e5799 60%, #5971eb 100%);
+    /* background: linear-gradient(55deg, #1e5799 60%, #5971eb 100%); */
     height: auto;
     padding-bottom: 0;
     position: relative;
@@ -2296,6 +2297,7 @@ svg,
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  z-index: -1;
 }
 .appeal-section__img img {
   width: 100%;
@@ -2335,6 +2337,7 @@ svg,
   background: -webkit-repeating-linear-gradient(top, #05245a, #05245a);
   -webkit-background-clip: text !important;
   text-align: center;
+  transition: transform 0.3s ease-out;
   /* white-space: nowrap !important; */
   -webkit-text-fill-color: transparent !important;
 }

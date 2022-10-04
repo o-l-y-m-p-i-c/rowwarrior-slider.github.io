@@ -555,11 +555,11 @@ function onloadAnimatedText() {
 
   var infoTitlee = TweenMax.fromTo(infoTitle, 1,
     {
-      xPercent: 140,
+      x: '-15px',
       // opacity: 1,
       ease: Power1.easeInOut
     }, {
-      xPercent: -140,
+      x: '15px',
       // opacity: 0,
       ease: Power1.easeInOut
     });
@@ -576,12 +576,14 @@ function onloadAnimatedText() {
 
   var infoTitlee2 = TweenMax.fromTo(infoTitle2, 1,
     {
-      xPercent: -140,
+      x: '15px',
+      // xPercent: -10,
       // opacity: 1,
       ease: Power1.easeInOut
     }, {
-      xPercent: 140,
+      // xPercent: 10,
       // opacity: 0,
+      x: '-15px',
       ease: Power1.easeInOut
     });
     
@@ -596,11 +598,11 @@ function onloadAnimatedText() {
 
   var infoTitlee3 = TweenMax.fromTo(infoTitle3, 1,
     {
-      xPercent: 140,
+      x: '-15px',
       // opacity: 1,
       ease: Power1.easeInOut
     }, {
-      xPercent: -140,
+      x: '15px',
       // opacity: 0,
       ease: Power1.easeInOut
     });

@@ -114,10 +114,13 @@ html, body{
     /* transition:  opacity 0.4s ease-out; */
 }
 .bg-1v{
-    background-color: #41A5F2;
+    background-color: #41A5F2 !important;
 }
 .bg-v2{
-    background-color: #5CC0FE;
+    background-color: #5CC0FE !important;
+}
+.bg-v3{
+    background-color: #5fc2fe !important;
 }
 
 .vertical-slider__item-img-wrapper.show{
@@ -127,7 +130,7 @@ html, body{
 }
 .vertical-slider__pagination-list{
     display: inline-flex; border: 1px solid #fff;
-    border-radius:50px;
+    border-radius:4rem;
     /* overflow: hidden; */
     position: relative;
     box-sizing: border-box;
@@ -263,7 +266,7 @@ html, body{
     height: 0px;
     left: 0;
     /* top: 50% !important; */
-    height: calc(100%) !important;
+    height: 100% !important;
     background-color: white;
     /* border-radius: 50px; */
     border-radius: 4rem;

@@ -2297,7 +2297,7 @@ svg,
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  z-index: -1;
+  /* z-index: -1; */
 }
 .appeal-section__img img {
   width: 100%;
@@ -2309,6 +2309,7 @@ svg,
   margin-top: -16rem;
   top: 50%;
   left: -18rem;
+  z-index: -1;
 }
 @media (max-width: 1199px) {
   .appeal-section__img--1 {
@@ -2323,6 +2324,7 @@ svg,
   margin-top: -34rem;
   top: 50%;
   right: -6rem;
+  z-index: 1;
 }
 @media (max-width: 1199px) {
   .appeal-section__img--2 {

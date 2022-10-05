@@ -2191,8 +2191,8 @@ svg,
   width: 100%;
   text-align: center;
   /* padding-top: 30px; */
-  -webkit-backdrop-filter: saturate(100%) blur(5px);
-  backdrop-filter: saturate(100%) blur(5px);
+  /* -webkit-backdrop-filter: saturate(100%) blur(5px); */
+  /* backdrop-filter: saturate(100%) blur(5px); */
   pointer-events: all;
 }
 .good-info-section__absolute-container-inner .good-info-section__nav {
@@ -2200,6 +2200,10 @@ svg,
   margin-bottom: 50px;
   
   /* margin-bottom: 20px; */
+}
+.good-info-section__absolute-container-toggle-list{
+  -webkit-backdrop-filter: saturate(100%) blur(15px); 
+  backdrop-filter: saturate(100%) blur(15px);
 }
 .good-info-section__absolute-container-inner .good-info-section__nav .nav-good__link{
   /* pointer-events: all; */

@@ -468,7 +468,7 @@ $(document).ready(function() {
       }, speed);
       setTimeout(() => {
         objExp.loading = true
-      }, speed);
+      }, speed - 15);
       
       return false;
     });

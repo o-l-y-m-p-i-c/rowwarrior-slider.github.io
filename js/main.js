@@ -21,13 +21,17 @@ class VerticalSlider {
       // if (window.innerWidth < 1199) {
       this.switchFlag = false
       // }
+      if (this.container == null) {
+        return
+      }
       
       this.setScreenPosY(window.pageYOffset)
       this.scrollingEvent()
   }
   scroll = () =>{
-      this.setScreenPosY(window.pageYOffset)
-      this.checkContainers()
+   
+    this.setScreenPosY(window.pageYOffset)
+    this.checkContainers()
   }
   setSelector = (arr) => {
       this.selectorAll = arr
@@ -47,7 +51,7 @@ class VerticalSlider {
       this.changeShownContainer(null,id)
   }
   changeShownContainer =  (item) => {
-
+   
       this.shownBlock = item
 
 
@@ -101,7 +105,7 @@ class VerticalSlider {
       
   }
   checkContainers = () =>{
-    
+   
       // if (!this.switchFlag) {
           if (this.container.getBoundingClientRect().top > 0) {
 
@@ -180,12 +184,106 @@ class VerticalSlider {
 
   }
   scrollingEvent = () => {
+
       // if (this.switchFlag) {
           this.checkContainers()
       // }ß
   }
 }
 let slider1, slider2
+
+const objExp = {
+  container:null,
+  containerList:null,
+  linkList: null,
+  shownBlock: null,
+  switchFlag:false,
+  loading: false,
+
+  init: async (obj)=>{
+    const {containerClassNameList, linkClassNameList} = obj;
+    await objExp.setContainerList(containerClassNameList)
+    await objExp.setLinkList(linkClassNameList)
+    if (objExp.loading) {
+      objExp.check()
+    }
+
+  },
+  switcher: (item,index) =>{
+    if (item == objExp.shownBlock) {
+      return
+    }
+    objExp.shownBlock = item
+    objExp.linkList.forEach((link,id) =>{
+      if (id !== index) {
+        link.classList.remove("is-active")
+      }else{
+        link.classList.add("is-active")
+      }
+
+    })
+
+
+  },
+  setContainerList: (className)=>{
+    if (document.querySelectorAll(className)) {
+      objExp.containerList = document.querySelectorAll(className);
+      objExp.loading = true
+      // console.log(true)
+      return 
+    }
+    objExp.loading = false
+    // console.log(false)
+    return 
+  },
+  setLinkList: (className)=>{
+    if (document.querySelectorAll(className)) {
+      objExp.linkList = document.querySelectorAll(className);
+      objExp.loading = true
+      // console.log(true)
+      return 
+    }
+    objExp.loading = false
+    // console.log(false)
+    return 
+  },
+  check:()=>{
+    let startPoint = 160
+    if (objExp.loading !== true) {
+      return console.log("check - false")
+    }
+    objExp.containerList.forEach((item,index,arr) =>{
+      if (item.closest(".js-good-section-list").getBoundingClientRect().top > 0) {
+        objExp.switcher(arr[0],0)
+        return
+      }
+      if (item.closest(".js-good-section-list").getBoundingClientRect().top + item.closest(".js-good-section-list").getBoundingClientRect().height < 1) {
+        objExp.switcher(arr[arr.length-1],arr.length-1)
+        return
+      }
+      if (item.getBoundingClientRect().top < startPoint && (item.getBoundingClientRect().top + item.getBoundingClientRect().height ) >=  startPoint ) {
+        objExp.switcher(item,index)
+      }
+    })
+  },
+  scroll: ()=>{
+    if (objExp.loading) {
+      objExp.check()
+    }
+    
+  },
+  resize:()=>{
+    if (objExp.loading) {
+      objExp.check()
+    }
+  },
+
+
+}
+
+
+
+
 
 $(document).ready(function() {
   gallerySliderInit();
@@ -361,10 +459,17 @@ $(document).ready(function() {
 
   // scroll target
   function scrollTarget() {
+    let speed = 450
     $('.js-target-scroll').click(function(){
+      objExp.loading = false
       $('html, body').animate({
         scrollTop: $( $(this).attr('href') ).offset().top
-      }, 450);
+        
+      }, speed);
+      setTimeout(() => {
+        objExp.loading = true
+      }, speed);
+      
       return false;
     });
   }
@@ -516,11 +621,14 @@ var scene = new ScrollMagic.Scene({
 
 
 function onloadVerticalSlider(){
-  if (window.innerWidth > 1199 ) {
-    slider1 = new VerticalSlider('.slider1')
-    slider2 = new VerticalSlider('.slider2')
+  if (document.querySelector('.slider1') && document.querySelector('.slider2')) {
+    if (window.innerWidth > 1199 ) {
+      slider1 = new VerticalSlider('.slider1')
+      slider2 = new VerticalSlider('.slider2')
 
+    }
   }
+  
 }
 function onresizeVerticalSlider(){
   if (window.innerWidth < 1199 && slider1 && slider2) {
@@ -534,13 +642,18 @@ function onresizeVerticalSlider(){
   }
 }
 function onscrollVerticalSlider() {
-  if (window.innerWidth > 1199  && slider1 && slider2) {
+  if (window.innerWidth > 1199  && slider1 && slider2 ) {
       slider1.scroll()
       slider2.scroll()
   }
 }
-
 function getOffset(el) {
+  if (el == undefined) {
+    return {
+      left: 0,
+      top: 0
+    }
+  }  
   const rect = el.getBoundingClientRect();
   return {
     left: rect.left + window.scrollX,
@@ -550,7 +663,6 @@ function getOffset(el) {
 function getY(el) {
   return getOffset(el).top - window.innerHeight/0.7
 }
-
 function onloadAnimatedText() {
 
   var infoTitlee = TweenMax.fromTo(infoTitle, 1,
@@ -617,13 +729,13 @@ function onloadAnimatedText() {
 
 }
 function updateAnimatedTextOnScroll(){
-  if (scene1) {
+  if (scene1 ) {
     scene1.offset(getY(infoTitle[0]))
   }
-  if (scene2) {
+  if (scene2 ) {
     scene2.offset(getY(infoTitle2[0]))
   }
-  if (scene3) {
+  if (scene3 ) {
     scene3.offset(getY(infoTitle3[0]))
   }
 }
@@ -636,12 +748,15 @@ window.addEventListener('resize', onresizeVerticalSlider)
 
 window.onresize = () => {
   onresizeVerticalSlider()
+  objExp.resize()
 }
 window.onload = () => {
   onloadVerticalSlider()
   onloadAnimatedText()
+  objExp.init({containerClassNameList:".js-good-section-item", linkClassNameList:".js-good-link"})
 }
 window.onscroll = () => {
   onscrollVerticalSlider()
   updateAnimatedTextOnScroll()
+  objExp.scroll()
 }

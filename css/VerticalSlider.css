@@ -122,6 +122,10 @@ html, body{
 .bg-v3{
     background-color: #5fc2fe !important;
 }
+.bg-v4{
+    background: linear-gradient(75.19deg, #489DE7 10.45%, #428FE2 62.74%, #6070E2 81.8%, #476BDB 91.35%) !important;
+    /* background: linear-gradient(64.05deg, #489DE7 16.37%, #428FE2 63.21%, #6070E2 80.27%, #476BDB 88.83%) !important; */
+}
 
 .vertical-slider__item-img-wrapper.show{
     opacity: 1;
@@ -303,7 +307,7 @@ html, body{
 }
 
 @media screen and (max-width:1199px) {
-    .vertical-slider__container{
+    .reviews-section-1,.good-section-1{
         display: none;
     }
 }

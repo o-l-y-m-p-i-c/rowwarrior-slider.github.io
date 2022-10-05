@@ -2201,7 +2201,7 @@ svg,
   
   /* margin-bottom: 20px; */
 }
-.good-info-section__absolute-container-toggle-list{
+.good-info-section__absolute-container-inner .good-info-section__absolute-container-toggle-list{
   -webkit-backdrop-filter: saturate(100%) blur(15px); 
   backdrop-filter: saturate(100%) blur(15px);
 }
